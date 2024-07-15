@@ -1,3 +1,6 @@
+# Adjust radius to 0.0625 and position for nose_cone to 1.5 before using
+# This is needed in order to have the proper static margin
+
 erika = Rocket(
     radius=0.20,
     mass=14.426,
