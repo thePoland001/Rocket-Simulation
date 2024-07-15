@@ -3,7 +3,7 @@ from rocketpy.utilities import apogee_by_mass
 from rocketpy.utilities import liftoff_speed_by_mass
 from rocketpy import Function
 import copy
-import datetime 
+import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 from math import exp
@@ -13,11 +13,13 @@ from rocketpy import Fluid, LiquidMotor, CylindricalTank, MassFlowRateBasedTank
 %matplotlib inline
 
 env = Environment(latitude = 34.64146, longitude = -86.54371, elevation = 266.3)
+
 tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
 
 env.set_date(
     (tomorrow.year, tomorrow.month, tomorrow.day, 12)
-)  
+)
+
 env.set_atmospheric_model(type = 'Forecast', file = "GFS")
 
 # Define fluids
@@ -72,24 +74,25 @@ liquid_motor.add_tank(tank=oxidizer_tank, position=1.0)
 liquid_motor.add_tank(tank=fuel_tank, position=2.5)
 
 erika = Rocket(
-    radius=127 / 2000,
-    mass=14.426,
+    radius=0.08,
+    mass=43.5,
     inertia=(6.321, 6.321, 0.034),
     power_off_drag="powerOffDragCurve.csv",
     power_on_drag="powerOnDragCurve.csv",
-    center_of_mass_without_motor=0,
+    center_of_mass_without_motor=0.75,
     coordinate_system_orientation="tail_to_nose",
 )
 
 rail_buttons = erika.set_rail_buttons(
-    upper_button_position=0.0818,
-    lower_button_position=-0.618,
+    upper_button_position=1.5,
+    lower_button_position=-0.5,
     angular_position=45,
 )
 
 erika.add_motor(liquid_motor, position=-1.255)
 
-nose_cone = erika.add_nose(length=0.55829, kind="vonKarman", position=1.278)
+nose_cone = erika.add_nose(length=0.5, kind="vonKarman", position=2.5)
+tail = erika.add_tail(top_radius=0.0635, bottom_radius=0.042, length=0.06, position=-1.194656)
 
 fin_set = erika.add_trapezoidal_fins(
     n=4,
@@ -101,11 +104,4 @@ fin_set = erika.add_trapezoidal_fins(
     airfoil=("NACA0012-radians.csv", "radians"),
 )
 
-tail = erika.add_tail(
-    top_radius=0.0635, bottom_radius=0.0435, length=0.060, position=-1.194656
-)
-
-test_flight = Flight(
-    rocket=erika, environment=env, rail_length=5.2, inclination=85, heading=0
-)
-test_flight.all_info()
+erika.all_info()
