@@ -1,9 +1,6 @@
-# Adjust radius to 0.0625 and position for nose_cone to 1.5 before using
-# This is needed in order to have the proper static margin
-
 erika = Rocket(
-    radius=0.20,
-    mass=14.426,
+    radius=0.08,
+    mass=43.5,
     inertia=(6.321, 6.321, 0.034),
     power_off_drag="powerOffDragCurve.csv",
     power_on_drag="powerOnDragCurve.csv",
@@ -17,10 +14,8 @@ rail_buttons = erika.set_rail_buttons(
     angular_position=45,
 )
 
-erika.add_motor(liquid_motor, position=-1.255)
-
-nose_cone = erika.add_nose(length=1, kind="vonKarman", position=3.5)
-tail = erika.add_tail(top_radius=0.2, bottom_radius=0.136, length=0.06, position=-1.194656)
+nose_cone = erika.add_nose(length=0.5, kind="vonKarman", position=2.5)
+tail = erika.add_tail(top_radius=0.0635, bottom_radius=0.042, length=0.06, position=-1.194656)
 
 fin_set = erika.add_trapezoidal_fins(
     n=4,
@@ -31,3 +26,5 @@ fin_set = erika.add_trapezoidal_fins(
     cant_angle=0.5,
     airfoil=("NACA0012-radians.csv", "radians"),
 )
+
+erika.all_info()
